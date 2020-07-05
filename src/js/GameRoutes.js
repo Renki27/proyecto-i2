@@ -20,6 +20,14 @@ export default {
 
     },
 
+    deleteGame(id_game) {
+        return axios
+            .post(url + '/deleteGame.php', id_game, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            })
+            .then(response => response.data);
+    },
+
     loadGames() {
         return axios
             .get(url + "/loadGames.php?request=loadGames")

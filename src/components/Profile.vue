@@ -268,7 +268,7 @@
                 >Update a Game</h5>
                 <hr class="my-4" />
                 <div
-                  class="col-sm-6 form-signin mt-4 mx-auto animate__animated animate__bounceInRight animate__animate__slow"
+                  class="col-sm-6 over form-signin mt-4 mx-auto animate__animated animate__bounceInRight animate__animate__slow"
                 >
                   <v-select
                     name="update-game"
@@ -292,7 +292,7 @@
                 </div>
                 <hr class="my-4" />
                 <!-- Update form -->
-                <form class="form-signin" v-if="!hideUpdate" v-on:submit="updateGame">
+                <form class="form-signin under" v-if="!hideUpdate" v-on:submit="updateGame">
                   <div class="row animate__animated animate__bounceInRight animate__animate__slow">
                     <div class="col-md-12">
                       <div class="row">
@@ -505,7 +505,7 @@
                   <form class="form-signin" v-on:submit="deleteGame">
                     <div class="form-label-group">
                       <div
-                        class="col-sm-6 mt-4 mx-auto animate__animated animate__bounceInRight animate__animate__slow"
+                        class="col-sm-6 over mt-4 mx-auto animate__animated animate__bounceInRight animate__animate__slow"
                       >
                         <v-select
                           name="update-game"
@@ -607,6 +607,8 @@ export default {
           } else if (this.message.status == 200) {
             this.notify("Success!", this.message.message, "success");
             this.clearFields();
+            this.gamesLibrary = [];
+            this.loadLibrary();
           }
         })();
       } catch (error) {}
@@ -631,7 +633,6 @@ export default {
     updateGame(e) {
       e.preventDefault();
       this.game.video_link = this.videoSourceEmbed(this.videoField);
-    //  console.log(this.game); 
 
       var gameData = this.toFormData(this.game);
 
@@ -639,6 +640,7 @@ export default {
         (async () => {
           const response = await gameOps.updateGame(gameData);
           this.message = response;
+
           //notify
           if (this.message.status == 409) {
             this.notify("Error!", this.message.message, "error");
@@ -648,13 +650,34 @@ export default {
             this.gamesLibrary = [];
             this.loadLibrary();
             this.hideUpdate = true;
+            this.updateSelection = "";
           }
         })();
       } catch (error) {}
     },
     //borrar juego
     deleteGame(e) {
+      e.preventDefault();
+      var setGame = {
+        id_game: this.deleteSelection
+      };
+      var tempGame = this.toFormData(setGame);
 
+      try {
+        (async () => {
+          const response = await gameOps.deleteGame(tempGame);
+          this.message = response;
+          //notify
+          if (this.message.status == 409) {
+            this.notify("Error!", this.message.message, "error");
+          } else if (this.message.status == 200) {
+            this.notify("Success!", this.message.message, "success");
+            this.gamesLibrary = [];
+            this.loadLibrary();
+            this.deleteSelection = "";
+          }
+        })();
+      } catch (error) {}
     },
     //selecciona el juego del select
     selectGame() {
@@ -738,6 +761,7 @@ export default {
       for (var key in obj) {
         formData.append(key, obj[key]);
       }
+
       return formData;
     },
     //limpia los espacios
@@ -782,7 +806,6 @@ export default {
           // Read image as base64 and set to imageData
           this.imageData = e.target.result;
           this.game.image = input.files[0];
-          console.log(this.game.image);
         };
         // Start the reader job - read file as a data url (base64 format)
         reader.readAsDataURL(input.files[0]);

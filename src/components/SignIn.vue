@@ -118,7 +118,7 @@ export default {
               this.userPayload.email = response.user.email;
 
               //crea el token de sesión
-              const token = jwt.sign(
+              var token = jwt.sign(
                 {
                   account_type: this.userPayload.account_type,
                   username: this.userPayload.username,
@@ -126,7 +126,7 @@ export default {
                 },
                 "SECRETKEY",
                 {
-                  expiresIn: "1h"
+                  expiresIn: '1h'
                 }
               );
               const user = this.userPayload;

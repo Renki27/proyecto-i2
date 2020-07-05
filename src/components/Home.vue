@@ -5,22 +5,20 @@
       <div class="row">
         <div class="col align-self-center">
           <h1 class="main-title display-1 text-center animate__animated animate__fadeInDown">
-            <strong>MAIN TITLE</strong>
+            <strong>GAMES LAB</strong>
           </h1>
           <h2
             class="sec-title display-4 text-center animate__animated animate__fadeInDown animate__slow"
-          >Secondary title</h2>
+          >Videogames Portal</h2>
         </div>
       </div>
       <div
         class="container mx-auto mt-50 bg-white animate__animated animate__fadeInUp animate__slow"
       >
         <p class="lead text-center">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veritatis doloremque culpa aspernatur
-          cumque
-          similique nam exercitationem
-          laboriosam eligendi vitae, eaque minima, mollitia pariatur repellendus libero, deserunt neque veniam
-          esse. Ipsa!
+          Find within the games catalog the latest releases and
+          the most popular video games, with a complete description
+          and the platforms on which it is available.
         </p>
       </div>
       <div class="carousel-wrapper mb-4">
@@ -28,7 +26,7 @@
           <div class="carousel-cell" v-for="game in gamesLibrary" v-bind:key="gamesLibrary.id_game">
             <h3 class="color-white mb-2">{{game.title}}</h3>
             <img class="thumb-img" :src="game.image" />
-            <div class="col-12 align-items-center mt-2 ">
+            <div class="col-12 align-items-center mt-2">
               <p
                 class="text-center small text-truncate font-weight-light color-white"
               >{{game.description}}</p>

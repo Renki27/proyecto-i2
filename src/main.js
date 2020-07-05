@@ -17,6 +17,12 @@ import Notifications from 'vue-notification'
 import vSelect from 'vue-select'
 Vue.component('v-select', vSelect)
 
+//interceptors axios
+import interceptorsSetup from './js/Interceptors'
+
+interceptorsSetup();
+
+
 
 
 Vue.use(VueRouter);
@@ -24,13 +30,8 @@ Vue.use(Notifications)
 
 
 // set auth header
-Axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
+//Axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
 
-// para mantener la sesion entre tabs
-/*
-var options = {
-    persist: true
-}*/
 
 
 const router = new VueRouter({
@@ -51,7 +52,7 @@ const router = new VueRouter({
             path: '/SignIn',
             name: "sign-in",
             component: SignIn
-            
+
         },
         {
             path: '/Profile',

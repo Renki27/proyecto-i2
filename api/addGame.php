@@ -20,8 +20,13 @@ if ($_POST) {
     $video_link = $_POST['video_link'];
 
     $target_path = "../uploads/";
-    $uploadfile = $target_path . basename($_FILES['image']['name']);
+    $path = pathinfo($_FILES['image']['name']);
+    $uploadfile = $target_path .   $path['filename'] . "_" .  date('YmdHis') . "." . $path['extension'];
     $file = $_FILES['image']['name'];
+
+
+
+    // echo $uploadfile;
 
     //Si el archivo contiene algo y es diferente de vacio
     if (isset($file) && $file != "") {
@@ -51,12 +56,10 @@ if ($_POST) {
             }
         }
     }
-    
+
+
     header("Content-type: application/json");
     echo json_encode($response);
-
-
-
 }
 
 
