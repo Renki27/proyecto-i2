@@ -30,7 +30,8 @@ export default {
           this.$router.push("/");
         }
       },
-      immediate: true // This ensures the watcher is triggered upon creation
+      // This ensures the watcher is triggered upon creation
+      immediate: true
     }
   }
 };
