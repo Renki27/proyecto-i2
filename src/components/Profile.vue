@@ -2,7 +2,7 @@
   <div v-if="this.$store.getters.logged">
     <div class="col-2">
       <img class="float-left rounded-circle avatar" />
-      <h2 class="sec-title display-4 text-center text-uppercase">{{ username }}</h2>
+      <h3 class="sec-title display-4 text-center text-uppercase">{{ username }}</h3>
     </div>
 
     <hr />
