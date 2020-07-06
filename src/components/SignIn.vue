@@ -44,7 +44,7 @@
                   type="submit"
                 >Sign in</button>
 
-                <router-link class="d-block text-center mt-2 medium color-black" to="/SignUp">
+                <router-link class="d-block text-center mt-4 medium color-black" to="/SignUp">
                   <strong>CREATE ACCOUNT?</strong>
                 </router-link>
               </form>

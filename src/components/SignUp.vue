@@ -34,7 +34,7 @@
                     class="form-control"
                     placeholder="Username"
                     name="username"
-                    v-model="user.username"
+                    v-model.trim="user.username"
                     required
                     autofocus
                   />
@@ -48,7 +48,7 @@
                     class="form-control"
                     placeholder="Email address"
                     name="email"
-                    v-model="user.email"
+                    v-model.trim="user.email"
                     required
                   />
                   <label for="inputEmail">Email address</label>
@@ -61,7 +61,7 @@
                     class="form-control"
                     placeholder="Password"
                     name="password"
-                    v-model="user.password"
+                    v-model.trim="user.password"
                     required
                   />
                   <label for="inputPassword">Password</label>
@@ -74,7 +74,7 @@
                     class="form-control"
                     placeholder="Password"
                     name="password_confirm"
-                    v-model="user.password_confirm"
+                    v-model.trim="user.password_confirm"
                     required
                   />
                   <label for="inputConfirmPassword">Confirm password</label>
@@ -84,7 +84,7 @@
                   Create
                   my Account!
                 </button>
-                <router-link class="d-block text-center mt-2 medium color-black" to="/SignIn">
+                <router-link class="d-block text-center mt-4 medium color-black" to="/SignIn">
                   <strong>ALREADY HAVE AN ACCOUNT?</strong>
                 </router-link>
               </form>

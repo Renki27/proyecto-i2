@@ -72,7 +72,7 @@
                               <input
                                 type="text"
                                 class="form-control"
-                                v-model="game.title"
+                                v-model.trim="game.title"
                                 placeholder="Title of the game"
                                 required
                               />
@@ -86,7 +86,7 @@
                               <input
                                 type="text"
                                 class="form-control"
-                                v-model="game.genre"
+                                v-model.trim="game.genre"
                                 placeholder="Game genre"
                               />
                             </div>
@@ -99,7 +99,7 @@
                               <input
                                 type="text"
                                 class="form-control"
-                                v-model="game.publisher"
+                                v-model.trim="game.publisher"
                                 placeholder="Publisher company"
                               />
                             </div>
@@ -112,7 +112,7 @@
                               <input
                                 type="text"
                                 class="form-control"
-                                v-model="game.developer"
+                                v-model.trim="game.developer"
                                 placeholder="Developer company"
                               />
                             </div>
@@ -125,7 +125,7 @@
                               <input
                                 type="text"
                                 class="form-control"
-                                v-model="game.platform"
+                                v-model.trim="game.platform"
                                 placeholder="Supported platforms"
                               />
                             </div>
@@ -139,7 +139,7 @@
                               <input
                                 type="text"
                                 class="form-control"
-                                v-model="game.released_on"
+                                v-model.trim="game.released_on"
                                 placeholder="Release year"
                                 maxlength="4"
                                 minlength="4"
@@ -156,7 +156,7 @@
                               <select
                                 name="multiplayer"
                                 class="custom-select custom-select mb-3"
-                                v-model="game.multiplayer"
+                                v-model.trim="game.multiplayer"
                                 required
                               >
                                 <option selected default value disabled>Choose...</option>
@@ -173,7 +173,7 @@
                               <input
                                 type="text"
                                 class="form-control"
-                                v-model="videoField"
+                                v-model.trim="videoField"
                                 placeholder="Link of the video trailer"
                                 required
                               />
@@ -220,7 +220,7 @@
                                     cols="10"
                                     rows="7"
                                     class="form-control"
-                                    v-model="game.description"
+                                    v-model.trim="game.description"
                                     maxlength="1000"
                                     wrap="soft"
                                     placeholder="Synopsis / Requirements"
@@ -275,7 +275,7 @@
                     name="update-game"
                     class="mb-5 over animate__animated animate__fadeIn animate__slow"
                     :options="gamesLibrary"
-                    v-model="updateSelection"
+                    v-model.trim="updateSelection"
                     :value="gamesLibrary.id_game"
                     :reduce="gamesLibrary => gamesLibrary.id_game"
                     label="title"
@@ -304,7 +304,7 @@
                               <input
                                 type="text"
                                 class="form-control"
-                                v-model="game.title"
+                                v-model.trim="game.title"
                                 placeholder="Title of the game"
                                 required
                               />
@@ -318,7 +318,7 @@
                               <input
                                 type="text"
                                 class="form-control"
-                                v-model="game.genre"
+                                v-model.trim="game.genre"
                                 placeholder="Game genre"
                               />
                             </div>
@@ -331,7 +331,7 @@
                               <input
                                 type="text"
                                 class="form-control"
-                                v-model="game.publisher"
+                                v-model.trim="game.publisher"
                                 placeholder="Publisher company"
                               />
                             </div>
@@ -344,7 +344,7 @@
                               <input
                                 type="text"
                                 class="form-control"
-                                v-model="game.developer"
+                                v-model.trim="game.developer"
                                 placeholder="Developer company"
                               />
                             </div>
@@ -357,7 +357,7 @@
                               <input
                                 type="text"
                                 class="form-control"
-                                v-model="game.platform"
+                                v-model.trim="game.platform"
                                 placeholder="Supported platforms"
                               />
                             </div>
@@ -371,7 +371,7 @@
                               <input
                                 type="text"
                                 class="form-control"
-                                v-model="game.released_on"
+                                v-model.trim="game.released_on"
                                 placeholder="Release year"
                                 maxlength="4"
                                 minlength="4"
@@ -388,7 +388,7 @@
                               <select
                                 name="multiplayer"
                                 class="custom-select custom-select mb-3"
-                                v-model="game.multiplayer"
+                                v-model.trim="game.multiplayer"
                                 required
                               >
                                 <option selected default value disabled>Choose...</option>
@@ -405,7 +405,7 @@
                               <input
                                 type="text"
                                 class="form-control"
-                                v-model="videoField"
+                                v-model.trim="videoField"
                                 placeholder="Link of the video trailer"
                                 required
                               />
@@ -453,7 +453,7 @@
                                     cols="10"
                                     rows="7"
                                     class="form-control"
-                                    v-model="game.description"
+                                    v-model.trim="game.description"
                                     maxlength="500"
                                     wrap="soft"
                                     placeholder="Synopsis / Requirements"
@@ -581,6 +581,7 @@
 <script>
 import gameOps from "../js/GameRoutes";
 import jwt from "jsonwebtoken";
+import GameVerification from "../js/GamesMiddleware";
 export default {
   name: "profile",
   data() {
@@ -607,7 +608,8 @@ export default {
       gamesLibrary: [],
       updateSelection: "",
       hideUpdate: true,
-      deleteSelection: ""
+      deleteSelection: "",
+      validationRes: ""
     };
   },
   async created() {
@@ -644,22 +646,33 @@ export default {
 
       var gameData = this.toFormData(this.game);
 
-      try {
-        (async () => {
-          const response = await gameOps.addGame(gameData);
-          this.message = response;
+      this.validationRes = GameVerification.validateGame(this.game); //   *****************validación antes del submit
 
-          //notify
-          if (this.message.status == 409) {
-            this.notify("Error!", this.message.message, "error");
-          } else if (this.message.status == 200) {
-            this.notify("Success!", this.message.message, "success");
-            this.clearFields();
-            this.gamesLibrary = [];
-            this.loadLibrary();
-          }
-        })();
-      } catch (error) {}
+      if (this.validationRes.length) {
+        this.$notify({
+          group: "foo",
+          title: "Error!",
+          text: this.validationRes,
+          type: "error"
+        });
+      } else {
+        try {
+          (async () => {
+            const response = await gameOps.addGame(gameData);
+            this.message = response;
+
+            //notify
+            if (this.message.status == 409) {
+              this.notify("Error!", this.message.message, "error");
+            } else if (this.message.status == 200) {
+              this.notify("Success!", this.message.message, "success");
+              this.clearFields();
+              this.gamesLibrary = [];
+              this.loadLibrary();
+            }
+          })();
+        } catch (error) {}
+      }
     },
     //carga los juegos
     async loadLibrary() {
@@ -684,24 +697,35 @@ export default {
 
       var gameData = this.toFormData(this.game);
 
-      try {
-        (async () => {
-          const response = await gameOps.updateGame(gameData);
-          this.message = response;
+      this.validationRes = GameVerification.validateGame(this.game); //   *****************validación antes del submit
 
-          //notify
-          if (this.message.status == 409) {
-            this.notify("Error!", this.message.message, "error");
-          } else if (this.message.status == 200) {
-            this.notify("Success!", this.message.message, "success");
-            this.clearFields();
-            this.gamesLibrary = [];
-            this.loadLibrary();
-            this.hideUpdate = true;
-            this.updateSelection = "";
-          }
-        })();
-      } catch (error) {}
+      if (this.validationRes.length) {
+        this.$notify({
+          group: "foo",
+          title: "Error!",
+          text: this.validationRes,
+          type: "error"
+        });
+      } else {
+        try {
+          (async () => {
+            const response = await gameOps.updateGame(gameData);
+            this.message = response;
+
+            //notify
+            if (this.message.status == 409) {
+              this.notify("Error!", this.message.message, "error");
+            } else if (this.message.status == 200) {
+              this.notify("Success!", this.message.message, "success");
+              this.clearFields();
+              this.gamesLibrary = [];
+              this.loadLibrary();
+              this.hideUpdate = true;
+              this.updateSelection = "";
+            }
+          })();
+        } catch (error) {}
+      }
     },
     //borrar juego
     deleteGame(e) {
@@ -786,15 +810,23 @@ export default {
           return videoLink;
         }
       } else if (videoLink.includes("vimeo")) {
-        link = videoLink.replace(
-          "https://vimeo.com/",
-          "https://player.vimeo.com/video/"
-        );
+        if (!videoLink.includes("player.vimeo.com/video/")) {
+          link = videoLink.replace(
+            "https://vimeo.com/",
+            "https://player.vimeo.com/video/"
+          );
+        } else {
+          return videoLink;
+        }
       } else if (videoLink.includes("dailymotion")) {
-        link = videoLink.replace(
-          "https://www.dailymotion.com/video/",
-          "https://www.dailymotion.com/embed/video/"
-        );
+        if (!videoLink.includes("embed")) {
+          link = videoLink.replace(
+            "https://www.dailymotion.com/video/",
+            "https://www.dailymotion.com/embed/video/"
+          );
+        } else {
+          return videoLink;
+        }
       } else {
         return videoLink;
       }

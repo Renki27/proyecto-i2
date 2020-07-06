@@ -9,10 +9,7 @@ module.exports = {
       return 'Please enter a password with min. 6 chars'
     }
     // password (repeat) does not match
-    if (
-      !user.password_confirm ||
-      user.password != user.password_confirm
-    ) {
+    if (!user.password_confirm || user.password != user.password_confirm) {
       return 'Both passwords must match'
     }
     return ""
