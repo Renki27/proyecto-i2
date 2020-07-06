@@ -5,6 +5,7 @@ import Home from "./components/Home.vue";
 import SignUp from "./components/SignUp.vue";
 import SignIn from "./components/SignIn.vue";
 import Profile from "./components/Profile.vue";
+import PageNotFound from "./components/PageNotFound.vue";
 // Router
 import VueRouter from 'vue-router';
 //Axios
@@ -30,7 +31,7 @@ Vue.use(Notifications)
 
 
 // set auth header
-//Axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
+Axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
 
 
 
@@ -58,7 +59,9 @@ const router = new VueRouter({
             path: '/Profile',
             name: "profile",
             component: Profile
-        }
+        },
+        { path: "*", 
+        component: PageNotFound }
     ]
 
 })

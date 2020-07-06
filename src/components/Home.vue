@@ -66,9 +66,20 @@
               >{{this.currentGame.title}}</h3>
             </div>
             <hr />
-            <div class="col-sm-12 lead text-center mx-auto mt-5">
-              <p>{{this.currentGame.description}}</p>
+            <div class="col-sm-12 mx-auto mt-5">
+              <p>
+                <strong class="color-blue">Description:</strong>
+              </p>
+              <div class="col-sm-12 lead text-center mx-auto">
+                <textarea
+                  v-model="this.currentGame.description"
+                  class="form-control ta-description lead text-center"
+                  maxlength="1000"
+                  spellcheck="false"
+                ></textarea>
+              </div>
             </div>
+
             <div class="mt-5">
               <p>
                 <strong class="color-blue">Genre:</strong>

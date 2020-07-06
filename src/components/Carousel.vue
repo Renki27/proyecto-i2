@@ -16,8 +16,8 @@
         style="background-image: url('https://images6.alphacoders.com/926/thumb-1920-926723.jpg')"
       >
         <div class="carousel-caption d-none d-md-block">
-          <h3 class="display-4">Latest Releases</h3>
-          <p class="lead">Keep up to date with the newest games.</p>
+          <h3 class="display-4 bg-black-alpha">Latest Releases</h3>
+          <p class="lead pb-10 bg-black-alpha">Keep up to date with the newest games.</p>
         </div>
       </div>
       <!-- Slide Two - Set the background image for this slide in the line below -->
@@ -26,8 +26,8 @@
         style="background-image: url('https://noticias.instacodez.com/wp-content/uploads/2017/06/The-Legend-of-Zelda-The-Breath-of-the-Wild-130617-001.jpg')"
       >
         <div class="carousel-caption d-none d-md-block">
-          <h3 class="display-4">All Platforms</h3>
-          <p class="lead">Games for all platforms.</p>
+          <h3 class="display-4 bg-black-alpha">All Platforms</h3>
+          <p class="lead pb-10 bg-black-alpha">Games for all platforms.</p>
         </div>
       </div>
       <!-- Slide Three - Set the background image for this slide in the line below -->
@@ -36,8 +36,8 @@
         style="background-image: url('https://images.hdqwalls.com/download/coven-morgana-league-of-legends-4k-pn-1920x1080.jpg')"
       >
         <div class="carousel-caption d-none d-md-block">
-          <h3 class="display-4">Games Descriptions</h3>
-          <p class="lead">Full descriptions of the most relevant video games.</p>
+          <h3 class="display-4 bg-black-alpha">Games Descriptions</h3>
+          <p class="lead pb-10 bg-black-alpha">Full descriptions of the most relevant video games.</p>
         </div>
       </div>
     </div>

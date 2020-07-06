@@ -75,7 +75,7 @@ function addGame($database, $username, $title, $genre, $publisher, $developer, $
 
     $sth->bindParam(1, $username, PDO::PARAM_STR, 25);
     $sth->bindParam(2, $title, PDO::PARAM_STR, 50);
-    $sth->bindParam(3, $genre, PDO::PARAM_STR, 25);
+    $sth->bindParam(3, $genre, PDO::PARAM_STR, 50);
     $sth->bindParam(4, $publisher, PDO::PARAM_STR, 25);
     $sth->bindParam(5, $developer, PDO::PARAM_STR, 25);
     $sth->bindParam(6, $platform, PDO::PARAM_STR, 50);

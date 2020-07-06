@@ -1,6 +1,6 @@
 <template>
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-black" v-bind:key="loggedIn">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-black">
     <div class="container">
       <router-link class="navbar-brand" to="/">
         <strong>| GAMES LAB |</strong>
@@ -21,7 +21,7 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/">Home</router-link>
           </li>
-          <div class="navbar-nav ml-auto" v-if="!loggedIn">
+          <div class="navbar-nav ml-auto" v-if="!this.$store.getters.logged">
             <li class="nav-item">
               <!-- <a class="nav-link" href="#">Sign Up</a> -->
               <router-link class="nav-link" to="/SignUp">Sign Up</router-link>
@@ -45,30 +45,6 @@
 
 <script>
 export default {
-  name: "Navbar",
-  data() {
-    return {
-      loggedIn: ""
-    };
-  },
-  async mounted() {
-    //this.loggedIn = this.$store.getters.isLoggedIn;
-    this.isLoggedIn(this.$store.getters.isLoggedIn);
-    console.log(this.loggedIn);
-  },
-  methods: {
-    async isLoggedIn(session) {
-      if (session) {
-        this.loggedIn = true;
-      } else {
-        this.loggedIn = false;
-      }
-    }
-  },
-  computed: {
-    session() {
-      return this.loggedIn;
-    }
-  }
+  name: "Navbar"
 };
 </script>

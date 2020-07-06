@@ -131,7 +131,7 @@ export default {
               );
               const user = this.userPayload;
               this.$store.dispatch("login", { token, user });
-              this.$router.push("/profile");
+              this.$router.push("/Profile");
             }
           }
         })();

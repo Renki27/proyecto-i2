@@ -1,5 +1,5 @@
 <template>
-  <div v-if="account_type === 'ADMIN'">
+  <div v-if="this.$store.getters.logged">
     <div class="col-2">
       <img class="float-left rounded-circle avatar" />
       <h2 class="sec-title display-4 text-center text-uppercase">{{ username }}</h2>
@@ -25,7 +25,7 @@
             href="#list-update-game"
             role="tab"
             aria-controls="update-game"
-            v-on:click="clearFields"
+            v-on:click="clearFields, hideUpdate = true, updateSelection = '' "
           >Update Game</a>
           <a
             class="list-group-item list-group-item-action"
@@ -34,6 +34,7 @@
             href="#list-delete-game"
             role="tab"
             aria-controls="delete-game"
+            v-on:click="deleteSelection = '' "
           >Delete Game</a>
           <a
             class="list-group-item list-group-item-action bg-blue color-white"
@@ -469,14 +470,14 @@
                     <div class="row justify-content-end">
                       <div class="col-sm-3">
                         <button
-                          class="btn btn-lg btn-primary btn-block text-uppercase mt-50"
+                          class="btn btn-lg btn-primary btn-block text-uppercase mt-2"
                           type="button"
                           v-on:click="clearFields"
                         >Clear</button>
                       </div>
                       <div class="col-sm-3">
                         <button
-                          class="btn btn-lg btn-primary btn-block text-uppercase mt-50"
+                          class="btn btn-lg btn-primary btn-block text-uppercase mt-2"
                           type="submit"
                         >Update game</button>
                       </div>
@@ -500,7 +501,7 @@
                   class="card-title text-center animate__animated animate__fadeInDown"
                 >Delete a Game</h5>
                 <hr class="my-4" />
-                <!-- Select game form -->
+                <!-- Select delete game form -->
                 <div class="row align-items-center">
                   <form class="form-signin" v-on:submit="deleteGame">
                     <div class="form-label-group">
@@ -508,7 +509,7 @@
                         class="col-sm-6 over mt-4 mx-auto animate__animated animate__bounceInRight animate__animate__slow"
                       >
                         <v-select
-                          name="update-game"
+                          name="delete-game"
                           class="mb-5 over animate__animated animate__fadeIn animate__slow"
                           :options="gamesLibrary"
                           v-model="deleteSelection"
@@ -522,8 +523,46 @@
                         >
                           <button
                             class="btn btn-lg btn-danger btn-block text-uppercase"
-                            type="submit"
+                            type="button"
+                            data-toggle="modal"
+                            data-target="#deleteModal"
+                            v-on:click="notifySelection"
                           >Delete game</button>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Modal -->
+                    <div
+                      class="modal fade"
+                      id="deleteModal"
+                      tabindex="-1"
+                      role="dialog"
+                      aria-labelledby="deleteModalLabel"
+                      aria-hidden="true"
+                      v-if="deleteSelection"
+                    >
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Game Delete</h5>
+                            <button
+                              type="button"
+                              class="close"
+                              data-dismiss="modal"
+                              aria-label="Close"
+                            >
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">Do you want to delete the game?</div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-secondary"
+                              data-dismiss="modal"
+                            >Close</button>
+                            <button type="submit" class="btn btn-primary">Delete</button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -538,13 +577,10 @@
       </div>
     </div>
   </div>
-  <div v-else>
-    <h1 class="mt-50">NOTHING TO SHOW</h1>
-    <button v-on:click="logout">LOG OUT</button>
-  </div>
 </template>
 <script>
 import gameOps from "../js/GameRoutes";
+import jwt from "jsonwebtoken";
 export default {
   name: "profile",
   data() {
@@ -578,9 +614,21 @@ export default {
     if (!this.$store.getters.isLoggedIn) {
       this.$router.push("/SignIn");
     }
+
+    try {
+      var decoded = jwt.verify(this.$store.getters.isLoggedIn, "SECRETKEY");
+    } catch (err) {
+      if (err.message == "jwt expired") {
+        this.notify("Error!", "Session expired!", "error");
+        this.$store.dispatch("logout");
+        this.$router.push("/");
+      }
+    }
+
     this.account_type = this.$store.getters.getUser.account_type;
     this.username = this.$store.getters.getUser.username;
     this.email = this.$store.getters.getUser.email;
+    //console.log("logged: " + this.$store.getters.logged);
   },
   mounted() {
     //cargar juegos
@@ -675,9 +723,16 @@ export default {
             this.gamesLibrary = [];
             this.loadLibrary();
             this.deleteSelection = "";
+            $("#deleteModal").modal("hide");
           }
         })();
       } catch (error) {}
+    },
+
+    notifySelection() {
+      if (!this.deleteSelection) {
+        this.notify("Hey!", "A game must be selected", "warn");
+      }
     },
     //selecciona el juego del select
     selectGame() {
@@ -692,7 +747,7 @@ export default {
 
         this.setSelectedGame(selectedGame);
       } else {
-        this.notify("Error!", "A game must be selected", "error");
+        this.notify("Hey!", "A game must be selected", "warn");
       }
     },
     //Carga los valores del select al form

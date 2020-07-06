@@ -116,9 +116,9 @@ function updateGame($database, $id_game, $username, $title, $genre, $publisher, 
     $sth->bindParam(1, $id_game, PDO::PARAM_INT, 5);
     $sth->bindParam(2, $username, PDO::PARAM_STR, 25);
     $sth->bindParam(3, $title, PDO::PARAM_STR, 50);
-    $sth->bindParam(4, $genre, PDO::PARAM_STR, 25);
-    $sth->bindParam(5, $publisher, PDO::PARAM_STR, 25);
-    $sth->bindParam(6, $developer, PDO::PARAM_STR, 25);
+    $sth->bindParam(4, $genre, PDO::PARAM_STR, 50);
+    $sth->bindParam(5, $publisher, PDO::PARAM_STR, 50);
+    $sth->bindParam(6, $developer, PDO::PARAM_STR, 50);
     $sth->bindParam(7, $platform, PDO::PARAM_STR, 50);
     $sth->bindParam(8, $released_on, PDO::PARAM_INT, 4);
     $sth->bindParam(9, $multiplayer, PDO::PARAM_STR, 25);
@@ -138,9 +138,9 @@ function updateGame_NoImage($database, $id_game, $username, $title, $genre, $pub
     $sth->bindParam(1, $id_game, PDO::PARAM_INT, 5);
     $sth->bindParam(2, $username, PDO::PARAM_STR, 25);
     $sth->bindParam(3, $title, PDO::PARAM_STR, 50);
-    $sth->bindParam(4, $genre, PDO::PARAM_STR, 25);
-    $sth->bindParam(5, $publisher, PDO::PARAM_STR, 25);
-    $sth->bindParam(6, $developer, PDO::PARAM_STR, 25);
+    $sth->bindParam(4, $genre, PDO::PARAM_STR, 50);
+    $sth->bindParam(5, $publisher, PDO::PARAM_STR, 50);
+    $sth->bindParam(6, $developer, PDO::PARAM_STR, 50);
     $sth->bindParam(7, $platform, PDO::PARAM_STR, 50);
     $sth->bindParam(8, $released_on, PDO::PARAM_INT, 4);
     $sth->bindParam(9, $multiplayer, PDO::PARAM_STR, 25);
