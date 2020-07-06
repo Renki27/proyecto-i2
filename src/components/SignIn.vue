@@ -126,7 +126,7 @@ export default {
                 },
                 "SECRETKEY",
                 {
-                  expiresIn: '1h'
+                  expiresIn: "1h"
                 }
               );
               const user = this.userPayload;

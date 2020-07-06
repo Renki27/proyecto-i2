@@ -142,19 +142,13 @@ export default {
 
             //notify
             if (this.message.status == 409) {
-              this.$notify({
-                group: "foo",
-                title: "Error!",
-                text: this.message.message,
-                type: "error"
-              });
+              this.notify("Error!", this.message.message, "error");
             } else if (this.message.status == 200) {
-              this.$notify({
-                group: "foo",
-                title: "Success!",
-                text: this.message.message,
-                type: "success"
-              });
+              this.notify(
+                "Success!",
+                "Welcome, " + this.message.message,
+                "success"
+              );
               this.clearFields();
             }
           })();
@@ -179,6 +173,14 @@ export default {
         password: "",
         password_confirm: ""
       };
+    },
+    notify(title, text, type) {
+      this.$notify({
+        group: "foo",
+        title: title,
+        text: text,
+        type: type
+      });
     }
   }
 };
