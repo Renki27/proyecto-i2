@@ -21,17 +21,25 @@ if ($_POST) {
     $multiplayer = multiplayerType($_POST['multiplayer']);
     $description = $_POST['description'];
     $video_link = $_POST['video_link'];
+    $uploadfile;
+    $file;
 
 
-    try {
-        error_reporting( error_reporting() & ~E_NOTICE );
-        $target_path = "../uploads/";
+    //error_reporting(error_reporting() & ~E_NOTICE);
+    $target_path = "../uploads/";
 
-        $file =  isset($_FILES['image']['name']);
 
-        $uploadfile = $target_path . basename($_FILES['image']['name']) ?? 'none';
-    } catch (Exception $e) {
+    if (isset($_FILES['image']['name'])) {
+        $path = pathinfo($_FILES['image']['name']);
+        $uploadfile = $target_path .   $path['filename'] . "_" .  date('YmdHis') . "." . $path['extension'];
+        $file = $_FILES['image']['name'];
+    } else {
+        $uploadfile = "none";
+        //$uploadfile = $target_path . basename($_FILES['image']['name']) ?? 'none';
     }
+
+
+
 
 
     /*        //cerifica si el archivo existe
@@ -40,6 +48,8 @@ if ($_POST) {
         $response['message'] = "The image file already exists!";
     } else { */
     //Si el archivo contiene algo y es diferente de vacio
+
+
     if (isset($file) && $file != "") {
 
         //Obtenemos algunos datos necesarios sobre el archivo
@@ -59,8 +69,9 @@ if ($_POST) {
             } else {
                 if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadfile)) {
                     //   echo $_FILES['image']['tmp_name'];
-                    //    echo $uploadfile;
+                   // echo $uploadfile;
                     updateGame($database, $id_game, $username, $title, $genre, $publisher, $developer, $platform, $released_on, $multiplayer, $description, $uploadfile, $video_link);
+
                     $response['status'] = 200;
                     $response['message'] = "Game updated!";
                 } else {
@@ -70,8 +81,9 @@ if ($_POST) {
             }
         }
     } else {
-        if ($uploadfile == "../uploads/") {
+        if ($uploadfile == "none") {
             updateGame_NoImage($database, $id_game, $username, $title, $genre, $publisher, $developer, $platform, $released_on, $multiplayer, $description, $video_link);
+
             $response['status'] = 200;
             $response['message'] = "Game updated!";
         } else {
@@ -79,6 +91,7 @@ if ($_POST) {
             $response['message'] = "Oops!, image file is empty!";
         }
     }
+
 
 
 
@@ -103,14 +116,14 @@ function updateGame($database, $id_game, $username, $title, $genre, $publisher, 
     $sth->bindParam(1, $id_game, PDO::PARAM_INT, 5);
     $sth->bindParam(2, $username, PDO::PARAM_STR, 25);
     $sth->bindParam(3, $title, PDO::PARAM_STR, 50);
-    $sth->bindParam(4, $genre, PDO::PARAM_STR, 25);
-    $sth->bindParam(5, $publisher, PDO::PARAM_STR, 25);
-    $sth->bindParam(6, $developer, PDO::PARAM_STR, 25);
+    $sth->bindParam(4, $genre, PDO::PARAM_STR, 50);
+    $sth->bindParam(5, $publisher, PDO::PARAM_STR, 50);
+    $sth->bindParam(6, $developer, PDO::PARAM_STR, 50);
     $sth->bindParam(7, $platform, PDO::PARAM_STR, 50);
     $sth->bindParam(8, $released_on, PDO::PARAM_INT, 4);
     $sth->bindParam(9, $multiplayer, PDO::PARAM_STR, 25);
     $sth->bindParam(10, $description, PDO::PARAM_STR, 1000);
-    $sth->bindParam(11, $image, PDO::PARAM_STR, 50);
+    $sth->bindParam(11, $image, PDO::PARAM_STR, 100);
     $sth->bindParam(12, $video_link, PDO::PARAM_STR, 50);
     $sth->execute();
 }
@@ -125,9 +138,9 @@ function updateGame_NoImage($database, $id_game, $username, $title, $genre, $pub
     $sth->bindParam(1, $id_game, PDO::PARAM_INT, 5);
     $sth->bindParam(2, $username, PDO::PARAM_STR, 25);
     $sth->bindParam(3, $title, PDO::PARAM_STR, 50);
-    $sth->bindParam(4, $genre, PDO::PARAM_STR, 25);
-    $sth->bindParam(5, $publisher, PDO::PARAM_STR, 25);
-    $sth->bindParam(6, $developer, PDO::PARAM_STR, 25);
+    $sth->bindParam(4, $genre, PDO::PARAM_STR, 50);
+    $sth->bindParam(5, $publisher, PDO::PARAM_STR, 50);
+    $sth->bindParam(6, $developer, PDO::PARAM_STR, 50);
     $sth->bindParam(7, $platform, PDO::PARAM_STR, 50);
     $sth->bindParam(8, $released_on, PDO::PARAM_INT, 4);
     $sth->bindParam(9, $multiplayer, PDO::PARAM_STR, 25);

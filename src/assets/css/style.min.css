@@ -38,6 +38,10 @@ body {
   margin-top: 100px;
 }
 
+.pb-10 {
+  padding-bottom: 10px;
+}
+
 .navbar-dark .navbar-nav .nav-link-blue {
   color: #008cff;
 }
@@ -84,6 +88,10 @@ body {
 
 .bg-blue {
   background: #0f1923;
+}
+
+.bg-black-alpha {
+  background: #111111ee;
 }
 
 .bg-black-gradient {
@@ -516,4 +524,40 @@ h3 {
 
 .over {
   z-index: 1;
+}
+
+.under {
+  z-index: -1;
+}
+
+.ta-description {
+  resize: none;
+  border: none;
+  outline: none !important;
+  -fx-display-caret: false;
+  caret-color: transparent !important;
+  height: auto;
+  min-height: 200px;
+  max-height: 200px;
+  overflow-y: scroll;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  word-break: break-word;
+  -ms-word-break: break-all;
+}
+
+.ta-description::-webkit-scrollbar {
+  width: 0.4em;
+  cursor: pointer;
+}
+
+.ta-description::-webkit-scrollbar-thumb {
+  background-color: #FF0040;
+  border-radius: 2em;
+  outline: 1px solid #be0030;
+}
+
+.ta-description:focus {
+  outline: none;
 }
