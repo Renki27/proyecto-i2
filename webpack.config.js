@@ -1,9 +1,12 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
-require("babel-polyfill");
+
 
 module.exports = {
-  entry: ['babel-polyfill','./src/main.js'],
+  entry: {
+    main: ['@babel/polyfill', './src/main.js']
+  },
+  
   output: {
     path: __dirname + '/dist',
     filename: 'bundle.js'
@@ -12,9 +15,12 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: /(node_modules|bower_components)/,
         use: {
-          loader: 'babel-loader'
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
         }
       },
       {
