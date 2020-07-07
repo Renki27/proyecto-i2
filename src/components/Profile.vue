@@ -454,7 +454,7 @@
                                     rows="7"
                                     class="form-control"
                                     v-model.trim="game.description"
-                                    maxlength="500"
+                                    maxlength="1000"
                                     wrap="soft"
                                     placeholder="Synopsis / Requirements"
                                   ></textarea>
