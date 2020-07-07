@@ -21,7 +21,7 @@
           and the platforms on which it is available.
         </p>
       </div>
-      <div class="carousel-wrapper mb-4">
+      <div class="carousel-wrapper mb-4" v-show="gamesLibrary.length">
         <div class="carousel" data-flickity>
           <div class="carousel-cell" v-for="game in gamesLibrary" v-bind:key="gamesLibrary.id_game">
             <h3 class="color-white mb-2">{{game.title}}</h3>
